@@ -1,0 +1,181 @@
+/* ==========================================================================
+   LUMORA TEA & LIFESTYLE — Custom Stylesheet & Motion Design
+   ========================================================================== */
+
+/* Smooth scrolling and base typography */
+html {
+  scroll-behavior: smooth;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F3EC;
+}
+::-webkit-scrollbar-thumb {
+  background: #C59A53;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A67E3E;
+}
+
+/* 3D Perspective Stage for Featured Cup */
+#cup-stage-container {
+  perspective: 1200px;
+}
+
+#cup-interactive-card {
+  transform-style: preserve-3d;
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Featured Hero Cup Image */
+#hero-cup-img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center center;
+  transform-origin: center center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+
+/* Detailed Menu Drink Cards */
+.drink-card .card-img-container {
+  aspect-ratio: 3 / 4.4;
+  width: 100%;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: rgba(247, 243, 236, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  position: relative;
+}
+
+.drink-card .card-img-single {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  transition: transform 0.5s ease;
+}
+
+.drink-card:hover .card-img-single {
+  transform: scale(1.05);
+}
+
+/* Active tab style */
+.drink-tab-btn.active {
+  background-color: #1A1817;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(26, 24, 23, 0.15);
+}
+
+/* Topping checkbox custom styling */
+.topping-box input:checked ~ div span:first-child {
+  color: #C59A53;
+}
+.topping-box:has(input:checked) {
+  border-color: #1A1817;
+  background-color: rgba(247, 243, 236, 0.7);
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(26, 24, 23, 0.08);
+}
+
+/* Floating animation keyframes */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.2deg);
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+/* Splash bubble burst animation */
+@keyframes bubblePop {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.splash-bubble {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: bubblePop 0.8s ease-out forwards;
+}
+
+/* Pulse glow keyframe */
+@keyframes auraPulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.08);
+  }
+}
+
+.aura-glow {
+  animation: auraPulse 6s ease-in-out infinite;
+}
+
+/* Active navigation indicator */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #C59A53;
+  transition: width 0.3s ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Dynamic glow themes */
+.glow-biscoff {
+  background: radial-gradient(circle, rgba(212, 154, 88, 0.4) 0%, rgba(181, 116, 58, 0.1) 70%, transparent 100%);
+}
+.glow-thaitea {
+  background: radial-gradient(circle, rgba(230, 115, 43, 0.4) 0%, rgba(192, 80, 24, 0.1) 70%, transparent 100%);
+}
+.glow-matcha {
+  background: radial-gradient(circle, rgba(91, 138, 77, 0.4) 0%, rgba(61, 99, 49, 0.1) 70%, transparent 100%);
+}
+.glow-blueberry {
+  background: radial-gradient(circle, rgba(130, 98, 168, 0.4) 0%, rgba(80, 55, 112, 0.1) 70%, transparent 100%);
+}

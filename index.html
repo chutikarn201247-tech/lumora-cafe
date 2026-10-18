@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUMORA — Tea & Lifestyle Cafe</title>
+  <meta name="description" content="Experience the art of artisanal tea, specialty drinks, and patisserie at LUMORA Tea & Lifestyle.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Prompt', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+            thai: ['Prompt', 'sans-serif'],
+          },
+          colors: {
+            lumora: {
+              cream: '#FDFBF7',
+              sand: '#F7F3EC',
+              dark: '#1A1817',
+              muted: '#766F68',
+              gold: '#C59A53',
+              biscoff: '#B5743A',
+              thaitea: '#D96826',
+              matcha: '#4A7C38',
+              blueberry: '#6C5893',
+            }
+          },
+          animation: {
+            'float-slow': 'float 6s ease-in-out infinite',
+            'float-delayed': 'float 7s ease-in-out 2s infinite',
+            'pulse-subtle': 'pulseSubtle 4s ease-in-out infinite',
+            'spin-slow': 'spin 20s linear infinite',
+            'shimmer': 'shimmer 2.5s infinite linear',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-12px) rotate(1.5deg)' },
+            },
+            pulseSubtle: {
+              '0%, 100%': { opacity: '0.9', transform: 'scale(1)' },
+              '50%': { opacity: '1', transform: 'scale(1.02)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-lumora-cream text-lumora-dark font-sans selection:bg-lumora-gold/20 selection:text-lumora-dark antialiased overflow-x-hidden">
+
+  <!-- Interactive Particle Background Canvas -->
+  <canvas id="ambient-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-70"></canvas>
+
+  <!-- Ambient Glow Background Orb (changes color dynamically) -->
+  <div id="ambient-glow" class="fixed top-1/4 -right-32 w-[600px] h-[600px] rounded-full blur-[140px] pointer-events-none -z-10 transition-all duration-1000 ease-out opacity-40 bg-amber-400"></div>
+  <div id="ambient-glow-left" class="fixed -bottom-32 -left-32 w-[500px] h-[500px] rounded-full blur-[130px] pointer-events-none -z-10 transition-all duration-1000 ease-out opacity-25 bg-amber-200"></div>
+
+  <!-- Announcement Bar -->
+  <div class="bg-lumora-dark text-white text-xs py-2 px-4 text-center font-medium tracking-wide flex items-center justify-center gap-2 relative z-50">
+    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+    <span data-i18n="announcement">✨ LUMORA Season Special: ซื้อเครื่องดื่มพร้อมขนมหวาน รับส่วนลดทันที 20% | โค้ด: LUMORA20</span>
+  </div>
+
+  <!-- Sticky Navbar -->
+  <header id="main-nav" class="sticky top-0 z-40 transition-all duration-300 bg-lumora-cream/80 backdrop-blur-md border-b border-lumora-sand/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-full border border-lumora-dark/20 flex items-center justify-center bg-white shadow-xs group-hover:rotate-12 transition-transform duration-300">
+          <svg class="w-5 h-5 text-lumora-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 2C8 6 4 10 4 15a8 8 0 0016 0c0-5-4-9-8-13z"/>
+            <path d="M12 2v20M8 12c2 1 4 1 6 0M9 16c1.5.8 3.5.8 5 0"/>
+          </svg>
+        </div>
+        <div>
+          <span class="font-serif tracking-[0.25em] text-2xl font-bold uppercase block text-lumora-dark">LUMORA</span>
+          <span class="text-[9px] tracking-[0.35em] text-lumora-muted uppercase font-semibold block -mt-1">Tea & Lifestyle</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-lumora-dark/80">
+        <a href="#signature-drinks" class="nav-link hover:text-lumora-dark transition-colors" data-i18n="nav_drinks">เครื่องดื่มซิกเนเจอร์</a>
+        <a href="#customizer" class="nav-link hover:text-lumora-dark transition-colors" data-i18n="nav_customizer">ครีเอทแก้วโปรด</a>
+        <a href="#desserts" class="nav-link hover:text-lumora-dark transition-colors" data-i18n="nav_desserts">เมนูของหวาน</a>
+        <a href="#story" class="nav-link hover:text-lumora-dark transition-colors" data-i18n="nav_story">เรื่องราวของเรา</a>
+        <a href="#locations" class="nav-link hover:text-lumora-dark transition-colors" data-i18n="nav_location">สาขาและเวลาเปิด</a>
+      </nav>
+
+      <!-- Action Tools (Language, Sound, Cart) -->
+      <div class="flex items-center gap-3">
+        <!-- Sound Effect Toggle -->
+        <button id="sound-toggle-btn" class="w-10 h-10 rounded-full border border-lumora-dark/15 flex items-center justify-center hover:bg-white transition-all text-lumora-dark relative" title="Toggle Sound FX">
+          <svg id="sound-icon-on" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+          <svg id="sound-icon-off" class="w-4 h-4 text-lumora-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+
+        <!-- Language Toggle -->
+        <button id="lang-toggle-btn" class="text-xs font-semibold px-3 py-2 rounded-full border border-lumora-dark/15 hover:bg-white transition-all text-lumora-dark flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-lumora-gold inline-block"></span>
+          <span id="current-lang-text">TH</span>
+        </button>
+
+        <!-- Cart Button with Counter -->
+        <button id="cart-toggle-btn" class="relative group bg-lumora-dark text-white px-4 py-2.5 rounded-full flex items-center gap-2 hover:bg-black transition-all shadow-sm">
+          <svg class="w-4 h-4 text-lumora-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          </svg>
+          <span class="text-xs font-medium" data-i18n="cart">ตะกร้า</span>
+          <span id="cart-counter-badge" class="bg-lumora-gold text-lumora-dark text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center transform group-hover:scale-110 transition-transform">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION: Interactive 3D Drink Showcase -->
+  <section class="relative min-h-[92vh] flex items-center justify-center pt-8 pb-16 overflow-hidden">
+    
+    <!-- Hero Background Graphic Elements -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5 overflow-hidden">
+      <span id="hero-bg-watermark" class="font-serif font-black text-[15vw] tracking-wider select-none uppercase whitespace-nowrap leading-none transition-all duration-700">BISCOFF</span>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+      
+      <!-- Drink Switcher Tabs / Selector -->
+      <div class="flex items-center justify-center mb-8">
+        <div class="inline-flex p-1.5 rounded-full bg-white/70 backdrop-blur-md border border-lumora-dark/10 shadow-xs gap-1 sm:gap-2">
+          <button class="drink-tab-btn active px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-2" data-drink-index="0">
+            <span class="w-3 h-3 rounded-full bg-lumora-biscoff shadow-xs"></span>
+            <span>Biscoff Caramel</span>
+          </button>
+          <button class="drink-tab-btn px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-2 text-lumora-muted hover:text-lumora-dark" data-drink-index="1">
+            <span class="w-3 h-3 rounded-full bg-lumora-thaitea shadow-xs"></span>
+            <span>Royal Thai Tea</span>
+          </button>
+          <button class="drink-tab-btn px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-2 text-lumora-muted hover:text-lumora-dark" data-drink-index="2">
+            <span class="w-3 h-3 rounded-full bg-lumora-matcha shadow-xs"></span>
+            <span>Uji Matcha</span>
+          </button>
+          <button class="drink-tab-btn px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 flex items-center gap-2 text-lumora-muted hover:text-lumora-dark" data-drink-index="3">
+            <span class="w-3 h-3 rounded-full bg-lumora-blueberry shadow-xs"></span>
+            <span>Blueberry Velvet</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Showcase Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Left Column: Story & Tasting Notes -->
+        <div class="lg:col-span-4 order-2 lg:order-1 text-center lg:text-left space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-lumora-dark/10 text-xs font-semibold tracking-wider uppercase text-lumora-muted shadow-xs">
+            <span id="hero-tag-badge" class="text-lumora-biscoff font-bold">★ Bestseller of the Month</span>
+          </div>
+
+          <div>
+            <h1 id="hero-title" class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight text-lumora-dark transition-all duration-500">
+              Caramel Biscoff<br>
+              <span class="italic font-normal text-lumora-biscoff">Brown Sugar</span> Boba
+            </h1>
+            <p id="hero-desc" class="mt-4 text-lumora-muted text-sm sm:text-base leading-relaxed transition-all duration-500">
+              ชานมสูตรเข้มข้นกลมกล่อม ราดซอสบราวน์ชูการ์เคี่ยวหอมละมุน ท็อปด้วยบิสคอฟครัมเบิ้ลกรอบและบราวน์ชูการ์คิวบ์แท้ หวานมันลงตัวในทุกคำ
+            </p>
+          </div>
+
+          <!-- Sensory Radar & Flavor Notes -->
+          <div class="bg-white/80 backdrop-blur-md rounded-2xl p-5 border border-lumora-dark/10 shadow-sm space-y-3.5">
+            <div class="flex items-center justify-between text-xs font-semibold text-lumora-dark pb-2 border-b border-lumora-sand">
+              <span data-i18n="tasting_notes">รสสัมผัสและกลิ่นโน้ต (Tasting Profile)</span>
+              <span id="hero-temp-badge" class="px-2 py-0.5 rounded bg-lumora-sand text-lumora-dark text-[10px]">Iced 16 oz</span>
+            </div>
+
+            <!-- Meter 1 -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs text-lumora-muted">
+                <span data-i18n="sweetness">ความหวานละมุน</span>
+                <span id="meter-sweetness-val" class="font-semibold text-lumora-dark">85%</span>
+              </div>
+              <div class="w-full h-1.5 bg-lumora-sand rounded-full overflow-hidden">
+                <div id="meter-sweetness-bar" class="h-full bg-lumora-biscoff rounded-full transition-all duration-700" style="width: 85%;"></div>
+              </div>
+            </div>
+
+            <!-- Meter 2 -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs text-lumora-muted">
+                <span data-i18n="richness">ความเข้มข้นมันนัว</span>
+                <span id="meter-richness-val" class="font-semibold text-lumora-dark">90%</span>
+              </div>
+              <div class="w-full h-1.5 bg-lumora-sand rounded-full overflow-hidden">
+                <div id="meter-richness-bar" class="h-full bg-lumora-biscoff rounded-full transition-all duration-700" style="width: 90%;"></div>
+              </div>
+            </div>
+
+            <!-- Meter 3 -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs text-lumora-muted">
+                <span data-i18n="tea_aroma">กลิ่นหอมใบชา</span>
+                <span id="meter-aroma-val" class="font-semibold text-lumora-dark">75%</span>
+              </div>
+              <div class="w-full h-1.5 bg-lumora-sand rounded-full overflow-hidden">
+                <div id="meter-aroma-bar" class="h-full bg-lumora-biscoff rounded-full transition-all duration-700" style="width: 75%;"></div>
+              </div>
+            </div>
+
+            <!-- Aroma Tags -->
+            <div id="hero-aroma-tags" class="flex flex-wrap gap-1.5 pt-2">
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-lumora-sand text-lumora-dark font-medium">Toffee Crunch</span>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-lumora-sand text-lumora-dark font-medium">Muscovado Sugar</span>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-lumora-sand text-lumora-dark font-medium">Ceylon Blend</span>
+            </div>
+          </div>
+
+          <!-- Price & Primary CTA Buttons -->
+          <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+            <div>
+              <span class="text-xs text-lumora-muted block" data-i18n="price_starting">ราคาเริ่มต้น</span>
+              <span id="hero-price" class="font-serif text-3xl font-bold text-lumora-dark">฿145</span>
+            </div>
+            
+            <div class="flex items-center gap-2.5 w-full sm:w-auto">
+              <button id="hero-order-btn" class="flex-1 sm:flex-none bg-lumora-dark text-white hover:bg-black font-semibold text-sm px-6 py-3.5 rounded-full transition-all transform hover:-translate-y-0.5 shadow-md flex items-center justify-center gap-2">
+                <svg class="w-4 h-4 text-lumora-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                <span data-i18n="order_now">สั่งแก้วนี้เลย</span>
+              </button>
+              <a href="#customizer" class="p-3.5 rounded-full border border-lumora-dark/20 hover:bg-white transition-all text-lumora-dark" title="ปรับแต่งสูตร">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Center Column: Interactive 3D Stage with Image Display -->
+        <div class="lg:col-span-5 order-1 lg:order-2 flex flex-col items-center justify-center relative">
+          
+          <!-- Interactive Stage Area -->
+          <div id="cup-stage-container" class="relative w-full max-w-[420px] aspect-[4/5] flex items-center justify-center cursor-grab active:cursor-grabbing group">
+            
+            <!-- Circular Ripple Wave Elements -->
+            <div class="absolute w-[340px] h-[340px] rounded-full border border-lumora-dark/10 animate-spin-slow pointer-events-none"></div>
+            <div id="cup-glow-backdrop" class="absolute w-[260px] h-[320px] rounded-full bg-gradient-to-b from-amber-300/30 to-amber-600/10 blur-2xl transition-all duration-700 pointer-events-none"></div>
+
+            <!-- Floating Ingredients Elements that hover around the cup -->
+            <div id="floating-elem-1" class="absolute -top-4 -left-2 bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-lg border border-lumora-dark/10 animate-float-slow z-20 flex items-center gap-2.5">
+              <span id="float-icon-1" class="text-xl">🍪</span>
+              <div>
+                <span id="float-title-1" class="text-xs font-bold text-lumora-dark block">Biscoff Crunch</span>
+                <span id="float-sub-1" class="text-[10px] text-lumora-muted block">Toasted Biscuit Topping</span>
+              </div>
+            </div>
+
+            <div id="floating-elem-2" class="absolute -bottom-4 -right-2 bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-lg border border-lumora-dark/10 animate-float-delayed z-20 flex items-center gap-2.5">
+              <span id="float-icon-2" class="text-xl">🍯</span>
+              <div>
+                <span id="float-title-2" class="text-xs font-bold text-lumora-dark block">Pure Brown Sugar</span>
+                <span id="float-sub-2" class="text-[10px] text-lumora-muted block">Slow-simmered Okinawa Style</span>
+              </div>
+            </div>
+
+            <!-- 3D Cup Card: Features the high-res drink cropped dynamically from the user image -->
+            <div id="cup-interactive-card" class="relative w-full h-full flex items-center justify-center transition-transform duration-200 ease-out will-change-transform">
+              
+              <!-- Container with exact cup masking -->
+              <div class="w-[280px] h-[440px] sm:w-[320px] sm:h-[480px] relative rounded-3xl overflow-hidden shadow-2xl bg-white border border-lumora-dark/10 flex items-center justify-center p-3 group-hover:shadow-3xl transition-shadow">
+                
+                <!-- Drink viewport -->
+                <div class="w-full h-full relative overflow-hidden rounded-2xl bg-gradient-to-b from-lumora-cream/40 to-white flex items-center justify-center p-2">
+                  <!-- The Featured Drink Image -->
+                  <img 
+                    id="hero-cup-img" 
+                    src="images/cup1_biscoff.jpg" 
+                    onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='file:///C:/Users/usEr/.gemini/antigravity/brain/dd7b257e-81fc-40fe-8e9a-0bffc69e81dc/.user_uploaded/media_1792334136202_048ad314.jpg';}"
+                    alt="LUMORA Drink"
+                    class="w-full h-full object-contain transition-all duration-500 ease-out"
+                  >
+                  <!-- Glass highlight sheen effect -->
+                  <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/40 pointer-events-none"></div>
+                </div>
+
+                <!-- Floating Interactive "Tap to Splash" hint -->
+                <button id="cup-splash-trigger" class="absolute bottom-5 inset-x-6 py-2 px-4 rounded-xl bg-lumora-dark/80 backdrop-blur-md text-white text-xs font-medium text-center hover:bg-black transition-all flex items-center justify-center gap-1.5 shadow-md">
+                  <span class="inline-block w-2 h-2 rounded-full bg-lumora-gold animate-pulse"></span>
+                  <span data-i18n="tap_to_taste">คลิกเพื่อลิ้มลองเอฟเฟกต์ฟองชา ✨</span>
+                </button>
+              </div>
+
+            </div>
+
+            <!-- Cup Pedestal Shadow -->
+            <div class="absolute -bottom-6 w-48 h-6 bg-lumora-dark/15 rounded-full blur-md"></div>
+          </div>
+
+          <!-- Quick Navigation Arrows -->
+          <div class="flex items-center gap-4 mt-6">
+            <button id="prev-drink-btn" class="w-10 h-10 rounded-full bg-white border border-lumora-dark/10 flex items-center justify-center text-lumora-dark hover:bg-lumora-dark hover:text-white transition-all shadow-xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </button>
+            <div class="flex items-center gap-1.5">
+              <span class="drink-dot w-2.5 h-2.5 rounded-full bg-lumora-dark transition-all" data-dot="0"></span>
+              <span class="drink-dot w-2.5 h-2.5 rounded-full bg-lumora-dark/20 transition-all" data-dot="1"></span>
+              <span class="drink-dot w-2.5 h-2.5 rounded-full bg-lumora-dark/20 transition-all" data-dot="2"></span>
+              <span class="drink-dot w-2.5 h-2.5 rounded-full bg-lumora-dark/20 transition-all" data-dot="3"></span>
+            </div>
+            <button id="next-drink-btn" class="w-10 h-10 rounded-full bg-white border border-lumora-dark/10 flex items-center justify-center text-lumora-dark hover:bg-lumora-dark hover:text-white transition-all shadow-xs">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Ingredients & Pairing Suggestion -->
+        <div class="lg:col-span-3 order-3 space-y-6">
+          
+          <!-- Origin & Craft Card -->
+          <div class="bg-white/70 backdrop-blur-md rounded-2xl p-5 border border-lumora-dark/10 shadow-xs space-y-3">
+            <div class="text-[11px] font-bold text-lumora-gold uppercase tracking-wider" data-i18n="artisan_process">ขั้นตอนการรังสรรค์</div>
+            <h4 id="craft-title" class="font-serif text-lg font-bold text-lumora-dark">Slow Flame Caramel</h4>
+            <p id="craft-desc" class="text-xs text-lumora-muted leading-relaxed">
+              เคี่ยวน้ำตาลทรายแดงแท้ด้วยไฟอ่อนนานกว่า 4 ชั่วโมง จนได้ไซรัปกลิ่นหอมอบอวลที่เคลือบรอบขอบแก้วอย่างประณีต
+            </p>
+          </div>
+
+          <!-- Suggested Dessert Pairing Card -->
+          <div class="bg-gradient-to-br from-white to-lumora-sand/50 rounded-2xl p-5 border border-lumora-dark/10 shadow-xs space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-lumora-gold/20 text-lumora-dark" data-i18n="best_pair">แนะนำทานคู่กับ</span>
+              <span id="pair-badge" class="text-xs font-semibold text-lumora-gold">+ ฿145</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div id="pair-icon" class="w-12 h-12 rounded-xl bg-lumora-sand flex items-center justify-center text-2xl shadow-inner">
+                🧇
+              </div>
+              <div>
+                <h5 id="pair-title" class="text-xs font-bold text-lumora-dark">Caramel Biscoff Croffle</h5>
+                <p id="pair-desc" class="text-[11px] text-lumora-muted">ครอฟเฟิลเนยสดฝรั่งเศสอบกรอบ</p>
+              </div>
+            </div>
+            <button id="add-combo-btn" class="w-full py-2 px-3 rounded-xl bg-white border border-lumora-dark/10 hover:border-lumora-dark text-xs font-semibold text-lumora-dark transition-all flex items-center justify-center gap-1.5 shadow-xs">
+              <span data-i18n="add_combo">สั่งเป็นเซ็ตคอมโบ (ลด 15%)</span>
+            </button>
+          </div>
+
+          <!-- Tea Master Guarantee -->
+          <div class="flex items-center gap-3 pt-2">
+            <div class="w-8 h-8 rounded-full border border-lumora-dark/20 flex items-center justify-center text-lumora-dark shrink-0">
+              ✓
+            </div>
+            <p class="text-[11px] text-lumora-muted leading-tight">
+              100% Premium Tea Leaves & Natural Organic Dairy • ชงสดใหม่ทุกแก้ว
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PANORAMIC LINEUP SHOWCASE -->
+  <section class="py-12 border-y border-lumora-sand bg-white/50 backdrop-blur-sm relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <span class="text-xs font-bold uppercase tracking-[0.2em] text-lumora-gold" data-i18n="the_lineup_tag">The Signature Quad</span>
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-lumora-dark mt-1" data-i18n="the_lineup_title">4 แก้วไอคอนิกจาก LUMORA</h2>
+      </div>
+
+      <!-- The Complete Image Banner with Interactive Highlights -->
+      <div class="relative rounded-3xl overflow-hidden border border-lumora-dark/10 shadow-lg bg-white p-2">
+        <div class="relative w-full aspect-[2/1] sm:aspect-[2.4/1] overflow-hidden rounded-2xl group">
+          <img 
+            src="images/lineup_banner.jpg" 
+            onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='file:///C:/Users/usEr/.gemini/antigravity/brain/dd7b257e-81fc-40fe-8e9a-0bffc69e81dc/.user_uploaded/media_1792331297752_00c24c02.jpg';}"
+            alt="LUMORA 4 Signature Drinks Lineup"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          >
+          
+          <!-- Interactive Hotspot Overlays on the 4 drinks -->
+          <div class="absolute inset-0 grid grid-cols-4 pointer-events-auto">
+            <button class="lineup-column-hotspot group/col relative flex flex-col justify-end p-4 transition-all hover:bg-lumora-biscoff/15" data-drink="0">
+              <div class="opacity-0 group-hover/col:opacity-100 transition-opacity bg-white/95 backdrop-blur-md rounded-xl p-3 shadow-md border border-lumora-dark/10 text-left">
+                <span class="text-[10px] font-bold text-lumora-biscoff block uppercase">01 • Toffee & Cream</span>
+                <span class="text-xs font-bold text-lumora-dark block">Biscoff Brown Sugar</span>
+                <span class="text-[11px] text-lumora-muted block">฿145</span>
+              </div>
+            </button>
+
+            <button class="lineup-column-hotspot group/col relative flex flex-col justify-end p-4 transition-all hover:bg-lumora-thaitea/15" data-drink="1">
+              <div class="opacity-0 group-hover/col:opacity-100 transition-opacity bg-white/95 backdrop-blur-md rounded-xl p-3 shadow-md border border-lumora-dark/10 text-left">
+                <span class="text-[10px] font-bold text-lumora-thaitea block uppercase">02 • Classic Heritage</span>
+                <span class="text-xs font-bold text-lumora-dark block">Royal Thai Tea</span>
+                <span class="text-[11px] text-lumora-muted block">฿125</span>
+              </div>
+            </button>
+
+            <button class="lineup-column-hotspot group/col relative flex flex-col justify-end p-4 transition-all hover:bg-lumora-matcha/15" data-drink="2">
+              <div class="opacity-0 group-hover/col:opacity-100 transition-opacity bg-white/95 backdrop-blur-md rounded-xl p-3 shadow-md border border-lumora-dark/10 text-left">
+                <span class="text-[10px] font-bold text-lumora-matcha block uppercase">03 • Ceremonial Grade</span>
+                <span class="text-xs font-bold text-lumora-dark block">Uji Matcha Latte</span>
+                <span class="text-[11px] text-lumora-muted block">฿155</span>
+              </div>
+            </button>
+
+            <button class="lineup-column-hotspot group/col relative flex flex-col justify-end p-4 transition-all hover:bg-lumora-blueberry/15" data-drink="3">
+              <div class="opacity-0 group-hover/col:opacity-100 transition-opacity bg-white/95 backdrop-blur-md rounded-xl p-3 shadow-md border border-lumora-dark/10 text-left">
+                <span class="text-[10px] font-bold text-lumora-blueberry block uppercase">04 • Floral Berry</span>
+                <span class="text-xs font-bold text-lumora-dark block">Blueberry Velvet</span>
+                <span class="text-[11px] text-lumora-muted block">฿145</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILED MENU SECTION -->
+  <section id="signature-drinks" class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-[0.25em] text-lumora-gold" data-i18n="menu_subtitle">Curated Beverage Collection</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-lumora-dark mt-2" data-i18n="menu_title">เมนูเครื่องดื่มซิกเนเจอร์</h2>
+        </div>
+        <p class="text-sm text-lumora-muted max-w-md mt-4 md:mt-0" data-i18n="menu_desc">
+          คัดสรรใบชาออร์แกนิกและวัตถุดิบคุณภาพสูงสุดจากไร่ชาชั้นนำ ชงสดแก้วต่อแก้วเพื่อรสสัมผัสที่ดีที่สุด
+        </p>
+      </div>
+
+      <!-- 4 Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Card 1: Biscoff Brown Sugar -->
+        <div class="drink-card group bg-white rounded-3xl p-5 border border-lumora-dark/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-drink="0">
+          <div>
+            <!-- Badge & Proportional Preview -->
+            <div class="card-img-container mb-4">
+              <img 
+                src="images/cup1_biscoff.jpg" 
+                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='file:///C:/Users/usEr/.gemini/antigravity/brain/dd7b257e-81fc-40fe-8e9a-0bffc69e81dc/.user_uploaded/media_1792334136202_048ad314.jpg';}"
+                alt="Biscoff Brown Sugar"
+                class="card-img-single"
+              >
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-lumora-biscoff text-white shadow-xs">Bestseller</span>
+            </div>
+
+            <!-- Title & Details -->
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-lumora-biscoff uppercase tracking-wide">Creamy & Toffee</span>
+              <h3 class="font-serif text-lg font-bold text-lumora-dark">Caramel Biscoff Boba</h3>
+              <p class="text-xs text-lumora-muted leading-relaxed line-clamp-2">
+                ชานมสูตรเคี่ยวบราวน์ชูการ์ ท็อปด้วยบิสคอฟครัมเบิ้ลกรอบและน้ำตาลก้อนสไตล์โอกินาวา
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-5 mt-4 border-t border-lumora-sand flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ราคา</span>
+              <span class="font-serif font-bold text-lg text-lumora-dark">฿145</span>
+            </div>
+            <button class="quick-add-btn px-4 py-2 rounded-full bg-lumora-dark text-white text-xs font-semibold hover:bg-lumora-biscoff transition-colors flex items-center gap-1.5" data-name="Caramel Biscoff Boba" data-price="145" data-category="drinks">
+              <span>+ เพิ่มลงตะกร้า</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: Royal Thai Tea -->
+        <div class="drink-card group bg-white rounded-3xl p-5 border border-lumora-dark/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-drink="1">
+          <div>
+            <div class="card-img-container mb-4">
+              <img 
+                src="images/cup2_thaitea.jpg" 
+                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='file:///C:/Users/usEr/.gemini/antigravity/brain/dd7b257e-81fc-40fe-8e9a-0bffc69e81dc/.user_uploaded/media_1792334142219_505ca777.jpg';}"
+                alt="Royal Thai Tea"
+                class="card-img-single"
+              >
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-lumora-thaitea text-white shadow-xs">Heritage</span>
+            </div>
+
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-lumora-thaitea uppercase tracking-wide">Bold & Aromatic</span>
+              <h3 class="font-serif text-lg font-bold text-lumora-dark">Royal Cha Thai Supreme</h3>
+              <p class="text-xs text-lumora-muted leading-relaxed line-clamp-2">
+                ชาไทยสูตรใบชาคั่วพิเศษ กลิ่นหอมเข้มข้น รสสัมผัสนุ่มละมุนไม่หวานบาดคอ
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-5 mt-4 border-t border-lumora-sand flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ราคา</span>
+              <span class="font-serif font-bold text-lg text-lumora-dark">฿125</span>
+            </div>
+            <button class="quick-add-btn px-4 py-2 rounded-full bg-lumora-dark text-white text-xs font-semibold hover:bg-lumora-thaitea transition-colors flex items-center gap-1.5" data-name="Royal Cha Thai Supreme" data-price="125" data-category="drinks">
+              <span>+ เพิ่มลงตะกร้า</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3: Uji Matcha Latte -->
+        <div class="drink-card group bg-white rounded-3xl p-5 border border-lumora-dark/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-drink="2">
+          <div>
+            <div class="card-img-container mb-4">
+              <img 
+                src="images/cup3_matcha.jpg" 
+                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='file:///C:/Users/usEr/.gemini/antigravity/brain/dd7b257e-81fc-40fe-8e9a-0bffc69e81dc/.user_uploaded/media_1792334147876_8a17aca6.jpg';}"
+                alt="Uji Matcha Latte"
+                class="card-img-single"
+              >
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-lumora-matcha text-white shadow-xs">Ceremonial</span>
+            </div>
+
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-lumora-matcha uppercase tracking-wide">Kyoto Blend</span>
+              <h3 class="font-serif text-lg font-bold text-lumora-dark">Ceremonial Uji Matcha</h3>
+              <p class="text-xs text-lumora-muted leading-relaxed line-clamp-2">
+                มัทฉะเกรดพิธีชงชาจากเมืองอุจิ เกียวโต ตีสดแก้วต่อแก้ว โทนถั่วอูมามิและครีมนุ่ม
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-5 mt-4 border-t border-lumora-sand flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ราคา</span>
+              <span class="font-serif font-bold text-lg text-lumora-dark">฿155</span>
+            </div>
+            <button class="quick-add-btn px-4 py-2 rounded-full bg-lumora-dark text-white text-xs font-semibold hover:bg-lumora-matcha transition-colors flex items-center gap-1.5" data-name="Ceremonial Uji Matcha" data-price="155" data-category="drinks">
+              <span>+ เพิ่มลงตะกร้า</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 4: Blueberry Velvet -->
+        <div class="drink-card group bg-white rounded-3xl p-5 border border-lumora-dark/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between" data-drink="3">
+          <div>
+            <div class="card-img-container mb-4">
+              <img 
+                src="images/cup4_blueberry.jpg" 
+                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='file:///C:/Users/usEr/.gemini/antigravity/brain/dd7b257e-81fc-40fe-8e9a-0bffc69e81dc/.user_uploaded/media_1792335061073_a561b301.jpg';}"
+                alt="Wild Blueberry Velvet"
+                class="card-img-single"
+              >
+              <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-lumora-blueberry text-white shadow-xs">Refreshing</span>
+            </div>
+
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-lumora-blueberry uppercase tracking-wide">Wild Berry Swirl</span>
+              <h3 class="font-serif text-lg font-bold text-lumora-dark">Wild Blueberry Velvet</h3>
+              <p class="text-xs text-lumora-muted leading-relaxed line-clamp-2">
+                บลูเบอร์รีป่าเคี่ยวซอสผสมผสานโยเกิร์ตนุ่มละมุนและเจลลี่เบอร์รี หอมสดชื่นมีชีวิตชีวา
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-5 mt-4 border-t border-lumora-sand flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ราคา</span>
+              <span class="font-serif font-bold text-lg text-lumora-dark">฿145</span>
+            </div>
+            <button class="quick-add-btn px-4 py-2 rounded-full bg-lumora-dark text-white text-xs font-semibold hover:bg-lumora-blueberry transition-colors flex items-center gap-1.5" data-name="Wild Blueberry Velvet" data-price="145" data-category="drinks">
+              <span>+ เพิ่มลงตะกร้า</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE "CRAFT YOUR CUP" STUDIO -->
+  <section id="customizer" class="py-20 bg-lumora-sand/40 border-y border-lumora-sand relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-lumora-gold" data-i18n="customizer_tag">Interactive Beverage Lab</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-lumora-dark mt-2" data-i18n="customizer_title">LUMORA Studio: ออกแบบแก้วในแบบคุณ</h2>
+        <p class="text-sm text-lumora-muted mt-3" data-i18n="customizer_desc">
+          เลือกระดับความหวาน ชนิดของนม และท็อปปิ้งพรีเมียมได้ตามใจ พร้อมดูภาพจำลองและราคาสรุปแบบเรียลไทม์
+        </p>
+      </div>
+
+      <div class="bg-white rounded-3xl border border-lumora-dark/10 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+        
+        <!-- Interactive Preview Column -->
+        <div class="lg:col-span-5 bg-gradient-to-b from-lumora-cream to-lumora-sand/60 p-8 flex flex-col items-center justify-between border-b lg:border-b-0 lg:border-r border-lumora-sand">
+          
+          <div class="text-center">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-lumora-muted block">Live Visualization</span>
+            <h4 id="custom-preview-name" class="font-serif text-2xl font-bold text-lumora-dark mt-1">Caramel Biscoff Boba</h4>
+            <div id="custom-tags-summary" class="flex flex-wrap items-center justify-center gap-1.5 mt-2">
+              <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-white border border-lumora-dark/10 text-lumora-dark font-medium" id="preview-sweet-tag">Sweet 50%</span>
+              <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-white border border-lumora-dark/10 text-lumora-dark font-medium" id="preview-milk-tag">Whole Milk</span>
+              <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-white border border-lumora-dark/10 text-lumora-dark font-medium" id="preview-ice-tag">Regular Ice</span>
+            </div>
+          </div>
+
+          <!-- Animated Simulated Graphic Cup -->
+          <div class="relative w-48 h-64 my-6 flex items-center justify-center">
+            <!-- Cup SVG Graphic with animated dynamic layers -->
+            <svg class="w-full h-full drop-shadow-xl" viewBox="0 0 200 260" fill="none">
+              <!-- Cup Body Outline -->
+              <path d="M40 30L55 240H145L160 30H40Z" fill="white" fill-opacity="0.2" stroke="#1A1817" stroke-width="2.5" stroke-linejoin="round"/>
+              
+              <!-- Liquid Base (dynamic fill color) -->
+              <path id="svg-liquid-fill" d="M43 45L55 238H145L157 45H43Z" fill="#B5743A" fill-opacity="0.85" class="transition-all duration-500"/>
+              
+              <!-- Sweetness / Cream Gradient Overlay -->
+              <path id="svg-cream-layer" d="M42 40L48 100H152L158 40H42Z" fill="white" fill-opacity="0.35" class="transition-all duration-500"/>
+              
+              <!-- Boba / Toppings layer inside cup -->
+              <g id="svg-boba-layer" class="transition-all duration-300">
+                <circle cx="75" cy="225" r="9" fill="#2B1810" />
+                <circle cx="100" cy="226" r="9" fill="#1E110B" />
+                <circle cx="125" cy="224" r="9" fill="#2B1810" />
+                <circle cx="88" cy="213" r="8" fill="#3D2214" />
+                <circle cx="112" cy="212" r="8" fill="#2B1810" />
+                <circle cx="98" cy="198" r="7" fill="#4A2D1B" />
+              </g>
+
+              <!-- Ice Cubes Layer -->
+              <g id="svg-ice-layer" class="transition-opacity duration-300">
+                <rect x="70" y="70" width="26" height="24" rx="4" fill="white" fill-opacity="0.45" stroke="white" stroke-width="1.5" transform="rotate(12 70 70)"/>
+                <rect x="110" y="80" width="28" height="26" rx="4" fill="white" fill-opacity="0.45" stroke="white" stroke-width="1.5" transform="rotate(-15 110 80)"/>
+                <rect x="85" y="110" width="24" height="24" rx="4" fill="white" fill-opacity="0.4" stroke="white" stroke-width="1.5" transform="rotate(8 85 110)"/>
+              </g>
+
+              <!-- Cup Lid -->
+              <path d="M30 30H170V22C170 17 166 14 160 14H40C34 14 30 17 30 22V30Z" fill="#FAF8F5" stroke="#1A1817" stroke-width="2.5"/>
+              <ellipse cx="100" cy="14" rx="35" ry="6" fill="#E8E2D8" stroke="#1A1817" stroke-width="1.5"/>
+              <!-- Straw Hole -->
+              <circle cx="100" cy="14" r="4" fill="#1A1817"/>
+              <!-- Straw -->
+              <path d="M100 14L130 -15" stroke="#C59A53" stroke-width="7" stroke-linecap="round"/>
+              <path d="M100 14L130 -15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 4"/>
+              
+              <!-- Brand Stamp on Cup -->
+              <text x="100" y="155" text-anchor="middle" font-family="'Playfair Display', serif" font-size="11" font-weight="bold" fill="white" letter-spacing="3">LUMORA</text>
+              <text x="100" y="166" text-anchor="middle" font-family="sans-serif" font-size="5" font-weight="600" fill="white" letter-spacing="2">TEA & LIFESTYLE</text>
+            </svg>
+          </div>
+
+          <!-- Bottom Price Box -->
+          <div class="w-full bg-white rounded-2xl p-4 border border-lumora-dark/10 shadow-sm flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ยอดรวมแก้วนี้</span>
+              <span id="customizer-total-price" class="font-serif text-2xl font-bold text-lumora-dark">฿145</span>
+            </div>
+            <button id="add-custom-drink-btn" class="bg-lumora-dark text-white px-5 py-2.5 rounded-full font-semibold text-xs hover:bg-black transition-all flex items-center gap-1.5 shadow-sm">
+              <svg class="w-4 h-4 text-lumora-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>เพิ่มแก้วนี้ลงตะกร้า</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Customization Options Column -->
+        <div class="lg:col-span-7 p-6 sm:p-8 space-y-6">
+          
+          <!-- Step 1: Base Selection -->
+          <div class="space-y-3">
+            <label class="text-xs font-bold text-lumora-dark uppercase tracking-wider block flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-lumora-dark text-white text-[11px] flex items-center justify-center">1</span>
+              <span>เลือกเครื่องดื่มหลัก (Base Beverage)</span>
+            </label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <button class="custom-base-opt active p-3 rounded-2xl border-2 border-lumora-dark bg-lumora-cream/40 text-left transition-all" data-base-id="0" data-base-price="145" data-color="#B5743A">
+                <span class="text-xs font-bold text-lumora-dark block">Biscoff Boba</span>
+                <span class="text-[11px] text-lumora-muted block">฿145</span>
+              </button>
+              <button class="custom-base-opt p-3 rounded-2xl border-2 border-transparent bg-lumora-sand/30 hover:border-lumora-dark/30 text-left transition-all" data-base-id="1" data-base-price="125" data-color="#D96826">
+                <span class="text-xs font-bold text-lumora-dark block">Thai Tea</span>
+                <span class="text-[11px] text-lumora-muted block">฿125</span>
+              </button>
+              <button class="custom-base-opt p-3 rounded-2xl border-2 border-transparent bg-lumora-sand/30 hover:border-lumora-dark/30 text-left transition-all" data-base-id="2" data-base-price="155" data-color="#4A7C38">
+                <span class="text-xs font-bold text-lumora-dark block">Uji Matcha</span>
+                <span class="text-[11px] text-lumora-muted block">฿155</span>
+              </button>
+              <button class="custom-base-opt p-3 rounded-2xl border-2 border-transparent bg-lumora-sand/30 hover:border-lumora-dark/30 text-left transition-all" data-base-id="3" data-base-price="145" data-color="#6C5893">
+                <span class="text-xs font-bold text-lumora-dark block">Blueberry</span>
+                <span class="text-[11px] text-lumora-muted block">฿145</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Sweetness Level -->
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <label class="text-xs font-bold text-lumora-dark uppercase tracking-wider block flex items-center gap-2">
+                <span class="w-5 h-5 rounded-full bg-lumora-dark text-white text-[11px] flex items-center justify-center">2</span>
+                <span>ระดับความหวาน (Sweetness Level)</span>
+              </label>
+              <span id="selected-sweetness-label" class="text-xs font-bold text-lumora-gold">50% (หวานกำลังดี - แนะนำ)</span>
+            </div>
+            <div class="grid grid-cols-5 gap-2">
+              <button class="sweet-btn p-2.5 rounded-xl border border-lumora-dark/15 text-center text-xs font-semibold hover:border-lumora-dark transition-all" data-val="0%">0%</button>
+              <button class="sweet-btn p-2.5 rounded-xl border border-lumora-dark/15 text-center text-xs font-semibold hover:border-lumora-dark transition-all" data-val="25%">25%</button>
+              <button class="sweet-btn active p-2.5 rounded-xl border-2 border-lumora-dark bg-lumora-dark text-white text-center text-xs font-semibold transition-all" data-val="50%">50%</button>
+              <button class="sweet-btn p-2.5 rounded-xl border border-lumora-dark/15 text-center text-xs font-semibold hover:border-lumora-dark transition-all" data-val="75%">75%</button>
+              <button class="sweet-btn p-2.5 rounded-xl border border-lumora-dark/15 text-center text-xs font-semibold hover:border-lumora-dark transition-all" data-val="100%">100%</button>
+            </div>
+          </div>
+
+          <!-- Step 3: Milk / Dairy Choice -->
+          <div class="space-y-3">
+            <label class="text-xs font-bold text-lumora-dark uppercase tracking-wider block flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-lumora-dark text-white text-[11px] flex items-center justify-center">3</span>
+              <span>ประเภทของนม (Milk Selection)</span>
+            </label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <button class="milk-btn active p-3 rounded-2xl border-2 border-lumora-dark bg-lumora-cream/40 text-left transition-all" data-name="นมสดฮอกไกโด" data-cost="0">
+                <span class="text-xs font-bold text-lumora-dark block">Whole Milk</span>
+                <span class="text-[10px] text-lumora-muted block">+฿0 ฟรี</span>
+              </button>
+              <button class="milk-btn p-3 rounded-2xl border border-lumora-dark/15 text-left transition-all hover:border-lumora-dark" data-name="นมโอ๊ต Oatly" data-cost="20">
+                <span class="text-xs font-bold text-lumora-dark block">Oat Milk</span>
+                <span class="text-[10px] text-lumora-muted block">+฿20 (Vegan)</span>
+              </button>
+              <button class="milk-btn p-3 rounded-2xl border border-lumora-dark/15 text-left transition-all hover:border-lumora-dark" data-name="นมอัลมอนด์" data-cost="20">
+                <span class="text-xs font-bold text-lumora-dark block">Almond Milk</span>
+                <span class="text-[10px] text-lumora-muted block">+฿20 (Keto)</span>
+              </button>
+              <button class="milk-btn p-3 rounded-2xl border border-lumora-dark/15 text-left transition-all hover:border-lumora-dark" data-name="นมถั่วเหลืองออร์แกนิก" data-cost="15">
+                <span class="text-xs font-bold text-lumora-dark block">Soy Milk</span>
+                <span class="text-[10px] text-lumora-muted block">+฿15</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Artisanal Toppings (Checkboxes) -->
+          <div class="space-y-3">
+            <label class="text-xs font-bold text-lumora-dark uppercase tracking-wider block flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-lumora-dark text-white text-[11px] flex items-center justify-center">4</span>
+              <span>ท็อปปิ้งพรีเมียม (Artisanal Toppings)</span>
+            </label>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+              
+              <label class="topping-box flex items-center gap-3 p-3 rounded-2xl border border-lumora-dark/15 cursor-pointer hover:bg-lumora-sand/20 transition-all">
+                <input type="checkbox" class="topping-check rounded text-lumora-dark focus:ring-0" data-name="Golden Boba" data-price="20" checked>
+                <div class="text-left">
+                  <span class="text-xs font-bold text-lumora-dark block">ไข่มุกทองคำ</span>
+                  <span class="text-[10px] text-lumora-muted block">+฿20</span>
+                </div>
+              </label>
+
+              <label class="topping-box flex items-center gap-3 p-3 rounded-2xl border border-lumora-dark/15 cursor-pointer hover:bg-lumora-sand/20 transition-all">
+                <input type="checkbox" class="topping-check rounded text-lumora-dark focus:ring-0" data-name="Biscoff Crumbs" data-price="25">
+                <div class="text-left">
+                  <span class="text-xs font-bold text-lumora-dark block">บิสคอฟครัมเบิ้ล</span>
+                  <span class="text-[10px] text-lumora-muted block">+฿25</span>
+                </div>
+              </label>
+
+              <label class="topping-box flex items-center gap-3 p-3 rounded-2xl border border-lumora-dark/15 cursor-pointer hover:bg-lumora-sand/20 transition-all">
+                <input type="checkbox" class="topping-check rounded text-lumora-dark focus:ring-0" data-name="Cream Cheese Foam" data-price="30">
+                <div class="text-left">
+                  <span class="text-xs font-bold text-lumora-dark block">ครีมชีสโฟม</span>
+                  <span class="text-[10px] text-lumora-muted block">+฿30</span>
+                </div>
+              </label>
+
+              <label class="topping-box flex items-center gap-3 p-3 rounded-2xl border border-lumora-dark/15 cursor-pointer hover:bg-lumora-sand/20 transition-all">
+                <input type="checkbox" class="topping-check rounded text-lumora-dark focus:ring-0" data-name="Brown Sugar Cubes" data-price="20">
+                <div class="text-left">
+                  <span class="text-xs font-bold text-lumora-dark block">บราวน์ชูการ์คิวบ์</span>
+                  <span class="text-[10px] text-lumora-muted block">+฿20</span>
+                </div>
+              </label>
+
+              <label class="topping-box flex items-center gap-3 p-3 rounded-2xl border border-lumora-dark/15 cursor-pointer hover:bg-lumora-sand/20 transition-all">
+                <input type="checkbox" class="topping-check rounded text-lumora-dark focus:ring-0" data-name="Fresh Blueberries" data-price="30">
+                <div class="text-left">
+                  <span class="text-xs font-bold text-lumora-dark block">บลูเบอร์รีสด</span>
+                  <span class="text-[10px] text-lumora-muted block">+฿30</span>
+                </div>
+              </label>
+
+              <label class="topping-box flex items-center gap-3 p-3 rounded-2xl border border-lumora-dark/15 cursor-pointer hover:bg-lumora-sand/20 transition-all">
+                <input type="checkbox" class="topping-check rounded text-lumora-dark focus:ring-0" data-name="Matcha Jelly" data-price="25">
+                <div class="text-left">
+                  <span class="text-xs font-bold text-lumora-dark block">เจลลี่มัทฉะ</span>
+                  <span class="text-[10px] text-lumora-muted block">+฿25</span>
+                </div>
+              </label>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ARTISANAL DESSERT & PATISSERIE SECTION -->
+  <section id="desserts" class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-[0.25em] text-lumora-gold" data-i18n="dessert_tag">Artisanal Patisserie & Bakery</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-lumora-dark mt-2" data-i18n="dessert_title">ของหวานคู่ชา รังสรรค์พิเศษ</h2>
+        </div>
+        <p class="text-sm text-lumora-muted max-w-md mt-4 md:mt-0" data-i18n="dessert_desc">
+          เบเกอรี่และของหวานอบสดใหม่ทุกเช้า ออกแบบรสชาติให้เข้าคู่กับ 4 ซิกเนเจอร์ดริ้งก์อย่างสมบูรณ์แบบ
+        </p>
+      </div>
+
+      <!-- 4 Desserts Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Dessert 1 -->
+        <div class="bg-white rounded-3xl p-5 border border-lumora-dark/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-amber-50 mb-4 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-300">
+              <span class="drop-shadow-md">🧇</span>
+              <span class="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-lumora-biscoff text-white">Pair with Biscoff</span>
+            </div>
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-lumora-biscoff uppercase">French Butter Croffle</span>
+              <h3 class="font-serif text-lg font-bold text-lumora-dark">Caramel Biscoff Croffle</h3>
+              <p class="text-xs text-lumora-muted leading-relaxed">
+                ครอฟเฟิลเนยสดฝรั่งเศส อบกรอบนอกนุ่มใน ราดคาราเมลซอสและโรยบิสคอฟสเปรด
+              </p>
+            </div>
+          </div>
+          <div class="pt-5 mt-4 border-t border-lumora-sand flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ราคา</span>
+              <span class="font-serif font-bold text-lg text-lumora-dark">฿145</span>
+            </div>
+            <button class="quick-add-btn px-4 py-2 rounded-full bg-lumora-dark text-white text-xs font-semibold hover:bg-lumora-gold transition-colors" data-name="Caramel Biscoff Croffle" data-price="145" data-category="desserts">
+              <span>+ เพิ่มของหวาน</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dessert 2 -->
+        <div class="bg-white rounded-3xl p-5 border border-lumora-dark/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-orange-50 mb-4 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-300">
+              <span class="drop-shadow-md">🍞</span>
+              <span class="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-lumora-thaitea text-white">Pair with Thai Tea</span>
+            </div>
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-lumora-thaitea uppercase">Signature Brioche</span>
+              <h3 class="font-serif text-lg font-bold text-lumora-dark">Thai Tea Lava Toast</h3>
+              <p class="text-xs text-lumora-muted leading-relaxed">
+                ขนมปังบริออชเนยสดกริลล์เตาถ่าน ไส้คัสตาร์ดชาไทยลาวาเยิ้มๆ เสิร์ฟอุ่นๆ พร้อมอัลมอนด์สไลด์
+              </p>
+            </div>
+          </div>
+          <div class="pt-5 mt-4 border-t border-lumora-sand flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ราคา</span>
+              <span class="font-serif font-bold text-lg text-lumora-dark">฿165</span>
+            </div>
+            <button class="quick-add-btn px-4 py-2 rounded-full bg-lumora-dark text-white text-xs font-semibold hover:bg-lumora-gold transition-colors" data-name="Thai Tea Lava Toast" data-price="165" data-category="desserts">
+              <span>+ เพิ่มของหวาน</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dessert 3 -->
+        <div class="bg-white rounded-3xl p-5 border border-lumora-dark/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-emerald-50 mb-4 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-300">
+              <span class="drop-shadow-md">🍰</span>
+              <span class="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-lumora-matcha text-white">Pair with Matcha</span>
+            </div>
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-lumora-matcha uppercase">Basque Cheesecake</span>
+              <h3 class="font-serif text-lg font-bold text-lumora-dark">Matcha Basque Cheesecake</h3>
+              <p class="text-xs text-lumora-muted leading-relaxed">
+                ชีสเค้กหน้าไหม้มัทฉะอุจิเข้มข้น เนื้อสัมผัสเนียนนุ่มละลายในปาก ตรงกลางกึ่งลาวา
+              </p>
+            </div>
+          </div>
+          <div class="pt-5 mt-4 border-t border-lumora-sand flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ราคา</span>
+              <span class="font-serif font-bold text-lg text-lumora-dark">฿185</span>
+            </div>
+            <button class="quick-add-btn px-4 py-2 rounded-full bg-lumora-dark text-white text-xs font-semibold hover:bg-lumora-gold transition-colors" data-name="Matcha Basque Cheesecake" data-price="185" data-category="desserts">
+              <span>+ เพิ่มของหวาน</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dessert 4 -->
+        <div class="bg-white rounded-3xl p-5 border border-lumora-dark/10 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="relative w-full aspect-square rounded-2xl overflow-hidden bg-purple-50 mb-4 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform duration-300">
+              <span class="drop-shadow-md">🫐</span>
+              <span class="absolute top-3 left-3 px-2 py-0.5 rounded-full text-[10px] font-bold bg-lumora-blueberry text-white">Pair with Blueberry</span>
+            </div>
+            <div class="space-y-1">
+              <span class="text-[11px] font-bold text-lumora-blueberry uppercase">French Tart</span>
+              <h3 class="font-serif text-lg font-bold text-lumora-dark">Blueberry Lavender Tart</h3>
+              <p class="text-xs text-lumora-muted leading-relaxed">
+                ทาร์ตแป้งกรอบสไตล์ฝรั่งเศส ท็อปด้วยบลูเบอร์รีสด ครีมลาเวนเดอร์และแยมเบอร์รีโฮมเมด
+              </p>
+            </div>
+          </div>
+          <div class="pt-5 mt-4 border-t border-lumora-sand flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-lumora-muted block">ราคา</span>
+              <span class="font-serif font-bold text-lg text-lumora-dark">฿175</span>
+            </div>
+            <button class="quick-add-btn px-4 py-2 rounded-full bg-lumora-dark text-white text-xs font-semibold hover:bg-lumora-gold transition-colors" data-name="Blueberry Lavender Tart" data-price="175" data-category="desserts">
+              <span>+ เพิ่มของหวาน</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BRAND PHILOSOPHY / STORY SECTION -->
+  <section id="story" class="py-20 bg-white border-t border-lumora-sand relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-6 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lumora-sand/60 text-xs font-semibold tracking-wider uppercase text-lumora-muted">
+            <span class="w-2 h-2 rounded-full bg-lumora-gold"></span>
+            <span>The LUMORA Philosophy</span>
+          </div>
+
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-lumora-dark leading-tight" data-i18n="story_title">
+            นิยามใหม่ของการดื่มชา<br>
+            <span class="italic font-normal text-lumora-gold">ความสงบ ละมุน และความรื่นรมย์</span>
+          </h2>
+
+          <p class="text-sm sm:text-base text-lumora-muted leading-relaxed" data-i18n="story_p1">
+            ที่ LUMORA (ลูโมร่า) เราเชื่อว่าชาไม่ใช่เพียงแค่เครื่องดื่มดับกระหาย แต่คือช่วงเวลาแห่งความสงบผ่อนคลายในวิถีชีวิตคนเมือง เราเดินทางค้นหาใบชาจากแหล่งปลูกธรรมชาติ ทั้งชาอัสสัมจากดอยสูงในเชียงราย และมัทฉะเกรดพิธีชงชาจากอุจิ เกียวโต
+          </p>
+
+          <p class="text-sm sm:text-base text-lumora-muted leading-relaxed" data-i18n="story_p2">
+            ทุกแก้วถูกออกแบบด้วยความเข้าใจในเคมีของรสชาติ ตั้งแต่การควบคุมอุณหภูมิน้ำ การสกัดด้วยเวลาที่แม่นยำ ไปจนถึงการจับคู่กับของหวานอบสดใหม่ เพื่อมอบสุนทรียภาพแห่งการดื่มชาที่ดีที่สุดให้กับคุณ
+          </p>
+
+          <div class="grid grid-cols-3 gap-6 pt-4 border-t border-lumora-sand">
+            <div>
+              <span class="font-serif text-3xl font-bold text-lumora-dark block">100%</span>
+              <span class="text-xs text-lumora-muted mt-1 block">Organic Tea Leaves</span>
+            </div>
+            <div>
+              <span class="font-serif text-3xl font-bold text-lumora-dark block">0%</span>
+              <span class="text-xs text-lumora-muted mt-1 block">Artificial Syrups</span>
+            </div>
+            <div>
+              <span class="font-serif text-3xl font-bold text-lumora-dark block">4 hrs</span>
+              <span class="text-xs text-lumora-muted mt-1 block">Slow Caramel Brew</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Visual Showcase -->
+        <div class="lg:col-span-6 relative">
+          <div class="relative mx-auto max-w-md">
+            <div class="aspect-[4/3] rounded-3xl overflow-hidden border border-lumora-dark/10 shadow-2xl bg-lumora-sand relative">
+              <img 
+                src="file:///C:/Users/usEr/.gemini/antigravity/brain/dd7b257e-81fc-40fe-8e9a-0bffc69e81dc/.user_uploaded/media_1792331297752_00c24c02.jpg" 
+                alt="LUMORA Tea Philosophy"
+                class="w-full h-full object-cover"
+              >
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
+                <div class="text-white">
+                  <span class="text-[10px] tracking-widest uppercase text-lumora-gold font-bold">From Soil to Soul</span>
+                  <p class="text-sm font-serif italic">"Crafted with stillness, served with warmth."</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating Quote Card -->
+            <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl border border-lumora-dark/10 max-w-xs">
+              <p class="text-xs font-serif italic text-lumora-dark">
+                "เครื่องดื่มชาที่ดี คือศิลปะที่สัมผัสได้ด้วยหัวใจ"
+              </p>
+              <span class="text-[10px] font-bold text-lumora-gold uppercase mt-2 block">— Head Tea Master, LUMORA</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- STORE LOCATIONS & LIVE CAFE STATUS -->
+  <section id="locations" class="py-20 bg-lumora-sand/30 border-t border-lumora-sand">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-xl mx-auto mb-14">
+        <span class="text-xs font-bold uppercase tracking-[0.25em] text-lumora-gold" data-i18n="location_tag">Visit Our Tea Space</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-lumora-dark mt-2" data-i18n="location_title">แวะมาสัมผัสบรรยากาศคาเฟ่</h2>
+        <div class="inline-flex items-center gap-2 mt-3 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          <span>Open Now • 08:30 - 20:30 (ทุกวัน)</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Location 1 -->
+        <div class="bg-white rounded-3xl p-6 border border-lumora-dark/10 shadow-sm hover:shadow-md transition-shadow">
+          <span class="text-xs font-bold text-lumora-gold uppercase tracking-wider">Flagship Store</span>
+          <h3 class="font-serif text-xl font-bold text-lumora-dark mt-1">LUMORA Thonglor</h3>
+          <p class="text-xs text-lumora-muted mt-2 leading-relaxed">
+            Sukhumvit 55, Thonglor Soi 10, Watthana, Bangkok
+          </p>
+          <div class="mt-4 pt-4 border-t border-lumora-sand flex items-center justify-between text-xs">
+            <span class="text-lumora-muted">Tel: 02-892-4411</span>
+            <span class="font-semibold text-lumora-dark">ที่จอดรถพร้อมบริการ</span>
+          </div>
+        </div>
+
+        <!-- Location 2 -->
+        <div class="bg-white rounded-3xl p-6 border border-lumora-dark/10 shadow-sm hover:shadow-md transition-shadow">
+          <span class="text-xs font-bold text-lumora-gold uppercase tracking-wider">Garden Sanctuary</span>
+          <h3 class="font-serif text-xl font-bold text-lumora-dark mt-1">LUMORA Ari</h3>
+          <p class="text-xs text-lumora-muted mt-2 leading-relaxed">
+            Phahonyothin Soi 7 (Ari Soi 4 North), Phaya Thai, Bangkok
+          </p>
+          <div class="mt-4 pt-4 border-t border-lumora-sand flex items-center justify-between text-xs">
+            <span class="text-lumora-muted">Tel: 02-892-4412</span>
+            <span class="font-semibold text-lumora-dark">BTS อารีย์ (Exit 3)</span>
+          </div>
+        </div>
+
+        <!-- Location 3 -->
+        <div class="bg-white rounded-3xl p-6 border border-lumora-dark/10 shadow-sm hover:shadow-md transition-shadow">
+          <span class="text-xs font-bold text-lumora-gold uppercase tracking-wider">Lifestyle Lounge</span>
+          <h3 class="font-serif text-xl font-bold text-lumora-dark mt-1">LUMORA Central Embassy</h3>
+          <p class="text-xs text-lumora-muted mt-2 leading-relaxed">
+            Level 3, Central Embassy, Ploenchit Road, Pathum Wan, Bangkok
+          </p>
+          <div class="mt-4 pt-4 border-t border-lumora-sand flex items-center justify-between text-xs">
+            <span class="text-lumora-muted">Tel: 02-892-4413</span>
+            <span class="font-semibold text-lumora-dark">BTS เพลินจิต</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-lumora-dark text-white pt-16 pb-12 border-t border-lumora-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-white/10">
+        
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+              <svg class="w-5 h-5 text-lumora-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 2C8 6 4 10 4 15a8 8 0 0016 0c0-5-4-9-8-13z"/>
+                <path d="M12 2v20M8 12c2 1 4 1 6 0M9 16c1.5.8 3.5.8 5 0"/>
+              </svg>
+            </div>
+            <div>
+              <span class="font-serif tracking-[0.25em] text-xl font-bold uppercase block text-white">LUMORA</span>
+              <span class="text-[8px] tracking-[0.35em] text-white/50 uppercase font-semibold block -mt-1">Tea & Lifestyle</span>
+            </div>
+          </div>
+          <p class="text-xs text-white/60 leading-relaxed max-w-sm">
+            สัมผัสศิลปะแห่งการชงชา รสชาติที่พิถีพิถัน และความสุขในทุกหยดแก้ว ชุมชนคนรักชาและไลฟ์สไตล์ร่วมสมัย
+          </p>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-lumora-gold">สำรวจเมนู</h4>
+          <ul class="text-xs text-white/70 space-y-2">
+            <li><a href="#signature-drinks" class="hover:text-white transition-colors">เครื่องดื่มซิกเนเจอร์</a></li>
+            <li><a href="#customizer" class="hover:text-white transition-colors">ออกแบบแก้วโปรด</a></li>
+            <li><a href="#desserts" class="hover:text-white transition-colors">ของหวานคู่ชา</a></li>
+            <li><a href="#story" class="hover:text-white transition-colors">แหล่งที่มาของใบชา</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-lumora-gold">บริการ & ช่วยเหลือ</h4>
+          <ul class="text-xs text-white/70 space-y-2">
+            <li><a href="#" class="hover:text-white transition-colors">สั่งผ่าน Delivery</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">จองโต๊ะและจัดเลี้ยง</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">สมาชิก LUMORA Club</a></li>
+            <li><a href="#" class="hover:text-white transition-colors">ติดต่อเรา</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <h4 class="text-xs font-bold uppercase tracking-wider text-lumora-gold">รับสิทธิพิเศษก่อนใคร</h4>
+          <p class="text-xs text-white/60">ลงทะเบียนรับส่วนลด 15% สำหรับการสั่งซื้อครั้งแรก</p>
+          <div class="flex gap-2">
+            <input type="email" placeholder="กรอกอีเมลของคุณ" class="bg-white/10 border border-white/20 rounded-full px-4 py-2 text-xs text-white placeholder-white/40 focus:outline-none focus:border-lumora-gold flex-1">
+            <button class="bg-lumora-gold text-lumora-dark font-bold text-xs px-4 py-2 rounded-full hover:bg-white transition-colors">สมัคร</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-white/40 gap-4">
+        <span>© 2026 LUMORA TEA & LIFESTYLE. All rights reserved.</span>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-white/70 transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-white/70 transition-colors">Terms of Service</a>
+          <a href="#" class="hover:text-white/70 transition-colors">Instagram @lumora.tea</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SLIDE-OVER SHOPPING CART DRAWER -->
+  <div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-xs z-50 transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+  
+  <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-out flex flex-col">
+    <!-- Header -->
+    <div class="p-6 border-b border-lumora-sand flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-lumora-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <h3 class="font-serif text-lg font-bold text-lumora-dark" data-i18n="cart_title">รายการในตะกร้า</h3>
+        <span id="cart-drawer-count" class="text-xs px-2 py-0.5 rounded-full bg-lumora-sand font-bold text-lumora-muted">0 รายการ</span>
+      </div>
+      <button id="close-cart-btn" class="w-8 h-8 rounded-full border border-lumora-dark/15 flex items-center justify-center hover:bg-lumora-sand transition-colors text-lumora-dark">✕</button>
+    </div>
+
+    <!-- Items List Container -->
+    <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-4">
+      <!-- Empty Cart State -->
+      <div id="cart-empty-state" class="h-full flex flex-col items-center justify-center text-center text-lumora-muted space-y-3 py-16">
+        <span class="text-5xl">🍵</span>
+        <p class="font-serif text-base font-bold text-lumora-dark" data-i18n="cart_empty">ตะกร้าของคุณยังว่างอยู่</p>
+        <p class="text-xs max-w-xs" data-i18n="cart_empty_sub">เลือกเครื่องดื่มซิกเนเจอร์หรือของหวานที่ชอบ แล้วเพลิดเพลินกับรสชาติสุดพิเศษ</p>
+      </div>
+      <!-- Items dynamically injected here -->
+    </div>
+
+    <!-- Promo Code & Bill Summary -->
+    <div class="p-6 border-t border-lumora-sand bg-lumora-cream/50 space-y-4">
+      
+      <!-- Promo code input -->
+      <div class="flex gap-2">
+        <input id="promo-code-input" type="text" placeholder="ใส่โค้ดลดราคา (ลอง: LUMORA20)" class="bg-white border border-lumora-dark/15 rounded-xl px-3 py-2 text-xs uppercase font-medium focus:outline-none focus:border-lumora-gold flex-1">
+        <button id="apply-promo-btn" class="bg-lumora-dark text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-black transition-colors" data-i18n="apply_code">ใช้โค้ด</button>
+      </div>
+      <div id="promo-feedback" class="text-[11px] font-medium hidden"></div>
+
+      <!-- Bill summary -->
+      <div class="space-y-1.5 text-xs">
+        <div class="flex justify-between text-lumora-muted">
+          <span data-i18n="subtotal">ยอดรวมสินค้า</span>
+          <span id="cart-subtotal" class="font-semibold text-lumora-dark">฿0</span>
+        </div>
+        <div id="discount-row" class="hidden flex justify-between text-emerald-600 font-medium">
+          <span>ส่วนลด (Promo 20%)</span>
+          <span id="cart-discount">-฿0</span>
+        </div>
+        <div class="flex justify-between text-lumora-muted">
+          <span>ค่าบริการและภาษี (Vat 7%)</span>
+          <span class="font-semibold text-lumora-dark">รวมในราคาแล้ว</span>
+        </div>
+        <div class="pt-2 border-t border-lumora-sand flex justify-between text-sm font-bold text-lumora-dark">
+          <span data-i18n="grand_total">ยอดรวมทั้งสิ้น</span>
+          <span id="cart-grand-total" class="font-serif text-lg text-lumora-dark">฿0</span>
+        </div>
+      </div>
+
+      <!-- Checkout Button -->
+      <button id="checkout-btn" class="w-full py-3.5 rounded-2xl bg-lumora-dark text-white font-bold text-xs uppercase tracking-wider hover:bg-black transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+        <span data-i18n="checkout">ดำเนินการสั่งซื้อ (Checkout)</span>
+        <svg class="w-4 h-4 text-lumora-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- CHECKOUT SUCCESS MODAL -->
+  <div id="checkout-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-white rounded-3xl p-8 max-w-md w-full border border-lumora-dark/10 shadow-2xl text-center space-y-4 transform scale-95 transition-transform duration-300">
+      <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-3xl">
+        ✓
+      </div>
+      <h3 class="font-serif text-2xl font-bold text-lumora-dark" data-i18n="order_success">คำสั่งซื้อสำเร็จเรียบร้อย!</h3>
+      <p class="text-xs text-lumora-muted leading-relaxed" data-i18n="order_success_desc">
+        ขอบคุณที่ร่วมดื่มด่ำกับ LUMORA ทางบาริสต้ากำลังเริ่มเตรียมเครื่องดื่มและของหวานแก้วโปรดของคุณด้วยความพิถีพิถัน
+      </p>
+
+      <!-- Simulated Order Ticket -->
+      <div class="bg-lumora-sand/40 rounded-2xl p-4 border border-lumora-sand text-left space-y-2 text-xs">
+        <div class="flex justify-between font-mono text-[11px] text-lumora-muted">
+          <span>ORDER #LM-9241</span>
+          <span>EST. TIME: 10-15 MINS</span>
+        </div>
+        <div id="modal-order-summary" class="font-medium text-lumora-dark"></div>
+      </div>
+
+      <button id="close-modal-btn" class="w-full py-3 rounded-full bg-lumora-dark text-white text-xs font-bold uppercase tracking-wider hover:bg-black transition-colors" data-i18n="back_to_cafe">
+        กลับสู่หน้าหลัก
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-lumora-dark text-white px-5 py-3 rounded-full text-xs font-semibold shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+    <span class="w-2 h-2 rounded-full bg-lumora-gold animate-ping"></span>
+    <span id="toast-text">เพิ่มลงในตะกร้าเรียบร้อยแล้ว</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
